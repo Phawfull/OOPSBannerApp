@@ -1,60 +1,113 @@
+public class uc7 {
 
-public class OOPSBannerApp {
+   
+    static class CharacterPatternMap {
 
+        private final char character;
+        private final String[] pattern;
+
+      
+        public CharacterPatternMap(char character, String[] pattern) {
+            this.character = character;
+            this.pattern = pattern;
+        }
+
+        
+        public char getCharacter() {
+            return character;
+        }
+
+      
+        public String[] getPattern() {
+            return pattern;
+        }
+    }
+
+  
+    public static CharacterPatternMap[] createCharacterPatternMaps() {
+
+        return new CharacterPatternMap[]{
+
+                new CharacterPatternMap('O', new String[]{
+                        "  *****  ",
+                        " *     * ",
+                        " *     * ",
+                        " *     * ",
+                        " *     * ",
+                        " *     * ",
+                        "  *****  "
+                }),
+
+                new CharacterPatternMap('P', new String[]{
+                        " ******  ",
+                        " *     * ",
+                        " *     * ",
+                        " ******  ",
+                        " *       ",
+                        " *       ",
+                        " *       "
+                }),
+
+                new CharacterPatternMap('S', new String[]{
+                        "  *****  ",
+                        " *       ",
+                        " *       ",
+                        "  *****  ",
+                        "       * ",
+                        "       * ",
+                        "  *****  "
+                }),
+
+                new CharacterPatternMap(' ', new String[]{
+                        "          ",
+                        "          ",
+                        "          ",
+                        "          ",
+                        "          ",
+                        "          ",
+                        "          "
+                })
+        };
+    }
+
+    
+    public static String[] getCharacterPattern(char ch,
+                                               CharacterPatternMap[] charMaps) {
+
+        for (CharacterPatternMap map : charMaps) {
+            if (map.getCharacter() == ch) {
+                return map.getPattern();
+            }
+        }
+
+       
+        return getCharacterPattern(' ', charMaps);
+    }
+
+   
+    public static void printMessage(String message,
+                                    CharacterPatternMap[] charMaps) {
+
+        for (int row = 0; row < 7; row++) {
+
+            StringBuilder lineBuilder = new StringBuilder();
+
+            for (char ch : message.toCharArray()) {
+                String[] pattern = getCharacterPattern(ch, charMaps);
+                lineBuilder.append(pattern[row]).append("  ");
+            }
+
+            System.out.println(lineBuilder);
+        }
+    }
+
+   
     public static void main(String[] args) {
 
-        String[] lines = new String[7];
+        CharacterPatternMap[] charMaps = createCharacterPatternMaps();
 
-        for (int i = 0; i < 7; i++) {
-            lines[i] = String.join(" ",
-                    buildO()[i],
-                    buildO()[i],
-                    buildP()[i],
-                    buildS()[i]
-            );
-        }
+        String message = "OOPS";
 
-        for (String line : lines) {
-            System.out.println(line);
-        }
-    }
-
-    // Helper method for O
-    public static String[] buildO() {
-        return new String[]{
-                " ***  ",
-                "*   * ",
-                "*   * ",
-                "*   * ",
-                "*   * ",
-                "*   * ",
-                " ***  "
-        };
-    }
-
-    // Helper method for P
-    public static String[] buildP() {
-        return new String[]{
-                "***** ",
-                "*   * ",
-                "*   * ",
-                "***** ",
-                "*     ",
-                "*     ",
-                "*     "
-        };
-    }
-
-    // Helper method for S
-    public static String[] buildS() {
-        return new String[]{
-                " **** ",
-                "*     ",
-                "*     ",
-                " ***  ",
-                "     *",
-                "     *",
-                "****  "
-        };
+        printMessage(message, charMaps);
     }
 }
